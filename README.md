@@ -1,40 +1,46 @@
 ## Website Performance Optimization portfolio project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
-
-To get started, check out the repository, inspect the code,
+I accepted Udacity's challege to optimize Cameron's online portfolio for speed!
 
 ### Getting started
 
 ####Part 1: Optimize PageSpeed Insights score for index.html
 
-Some useful tips to help you get started:
+Instead of using ngrok, I opted to use GitHub pages to host and test the site.  
 
-1. Check out the repository
-1. To inspect the site on your phone, you can run a local server
+After checking out the repository, creating the gh-pages version, and inspecting the site in Chrome Canary (web and mobile versions), I began the iterative process of profiling, optimizing, and measuring index.html.  Details are below.
 
-  ```bash
-  $> cd /path/to/your-project-folder
-  $> python -m SimpleHTTPServer 8080
-  ```
+The steps I followed to optimize index.html are as follows:
+1: Ran baseline of initial page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 28/100
+2: Compressed and reduced size of the pizzeria.jpg (2315KB) and profilepic.jpg (15KB) files
+  a) using http://www.jpegmini.com/ ... producing 2 new files pizzeria_mini.jpg (769KB) and profilepic_mini.jpg (12KB)
+  b) I then resized pizzeria_mini.jpg in MSPaint to 25% of the original size... pizzeria_miniV2.jpg (130KB), and again to V2 by 50%... resulting in pizzeria_miniV3.jpg (54KB)
+3: Updated index.html and views/pizza.html to use the compressed/resized version of pizzeria_miniV3.jpb
+4: Updated index.html to use the compressed/resized version of profilepic_mini.jpg
+5: Prevented JS rendor blocking by adding async to goolge analytics api
+6: Inlined css/style.css and moved google api and css/print.css to end to improve performance in index.html
+7: Reran the page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 93/100!!!
 
-1. Open a browser and visit localhost:8080
-1. Download and install [ngrok](https://ngrok.com/) to make your local server accessible remotely.
+The optimized version of index.html is here: http://kris10m.github.io/frontend-nanodegree-mobile-portfolio/
 
-  ``` bash
-  $> cd /path/to/your-project-folder
-  $> ngrok 8080
-  ```
-
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
-
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
 
 ####Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+After inspecting views/pizza.html and views/js/main.js, I began the iterative process of profiling, optimizing, and measuring views/pizza.html.  Details are below.
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+The steps I followed to optimize views/pizza.html and views/js/main.js are as follows:
+1: Ran baseline of initial page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 77/100
+2: Inlined views\css\style.css in pizza.html
+3: Prevented JS rendor blocking by adding async at the end of the main.js reference in pizza.html
+4: Reran the page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 87/100!
+5: Inspected timeline using Chrome DevTools.  Results showed determineDx, changePizzaSizes, and resizePizza functions in main.js had the heaviest stack > 400ms each.
+6: Inspected console using Chrome DevTools. Time to resize pizzas resulted in > 145ms.  Average time to generate last 10 frames ranged between .09ms and .16ms.
+7: Streamlined the changePizzaSizes sub-function of the main resizePizza function, consistent with the syntax used in the other sub-functions and removed the dx variable which was useless before.
+8: Re-inspected timeline of pizza.html using Chrome DevTools.  Results showed a more optimal scripting and improvements in the resizePizza and changePizzaSizes functions in main.js. The heaviest stack < 3ms each.
+9: Re-inspected console of pizza.html using Chrome DevTools. Time to resize pizzas resulted in ~1ms.  Average time to generate last 10 frames ranged between .10ms and .44ms.
+
+The optimized version of pizza.html is here: http://kris10m.github.io/frontend-nanodegree-mobile-portfolio/views/pizza.html
+
 
 ### Optimization Tips and Tricks
 * [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
@@ -47,27 +53,12 @@ You might find the FPS Counter/HUD Display useful in Chrome developer tools desc
 * <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
 * <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
 * <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+* <a href="https://developers.google.com/speed/webp/docs/compression">***NEW: Tips on compressing images</a>
+* <a href="https://developers.google.com/speed/docs/insights/BlockingJS">***NEW: Tips on preventing JS render blocking</a>
+* <a href="https://developers.google.com/speed/docs/insights/OptimizeCSSDelivery">***NEW: Tips on optimizating CSS</a>
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+### Other useful sites I found Googling :-)
+* <a href="http://www.imageoptimizer.net/Pages/Home.asp">Easy to use image compression tool, though it did not reduce the size of my images</a>
+* <a href="http://www.jpegmini.com/ ">Better image compressor... This one worked!</a>
+* <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/>Quick tip on syncing your GitHub master branch with gh-pages</a>
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
-
-### Sample Portfolios
-
-Feeling uninspired by the portfolio? Here's a list of cool portfolios I found after a few minutes of Googling.
-
-* <a href="http://www.reddit.com/r/webdev/comments/280qkr/would_anybody_like_to_post_their_portfolio_site/">A great discussion about portfolios on reddit</a>
-* <a href="http://ianlunn.co.uk/">http://ianlunn.co.uk/</a>
-* <a href="http://www.adhamdannaway.com/portfolio">http://www.adhamdannaway.com/portfolio</a>
-* <a href="http://www.timboelaars.nl/">http://www.timboelaars.nl/</a>
-* <a href="http://futoryan.prosite.com/">http://futoryan.prosite.com/</a>
-* <a href="http://playonpixels.prosite.com/21591/projects">http://playonpixels.prosite.com/21591/projects</a>
-* <a href="http://colintrenter.prosite.com/">http://colintrenter.prosite.com/</a>
-* <a href="http://calebmorris.prosite.com/">http://calebmorris.prosite.com/</a>
-* <a href="http://www.cullywright.com/">http://www.cullywright.com/</a>
-* <a href="http://yourjustlucky.com/">http://yourjustlucky.com/</a>
-* <a href="http://nicoledominguez.com/portfolio/">http://nicoledominguez.com/portfolio/</a>
-* <a href="http://www.roxannecook.com/">http://www.roxannecook.com/</a>
-* <a href="http://www.84colors.com/portfolio.html">http://www.84colors.com/portfolio.html</a>
