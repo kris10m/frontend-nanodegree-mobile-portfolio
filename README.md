@@ -60,5 +60,5 @@ The optimized version of pizza.html is here: http://kris10m.github.io/frontend-n
 ### Other useful sites I found Googling :-)
 * <a href="http://www.imageoptimizer.net/Pages/Home.asp">Easy to use image compression tool, though it did not reduce the size of my images</a>
 * <a href="http://www.jpegmini.com/ ">Better image compressor... This one worked!</a>
-* <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/>Quick tip on syncing your GitHub master branch with gh-pages</a>
+* <a href="http://lea.verou.me/2011/10/easily-keep-gh-pages-in-sync-with-master/">Quick tip on syncing your GitHub master branch with gh-pages</a>
 
