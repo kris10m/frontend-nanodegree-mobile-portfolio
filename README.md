@@ -31,11 +31,11 @@ After inspecting views/pizza.html and views/js/main.js, I began the iterative pr
 The steps I followed to optimize views/pizza.html and views/js/main.js are as follows:
 1: Ran baseline of initial page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 77/100
 2: Inlined views\css\style.css in pizza.html
-3: Prevented JS rendor blocking by adding async at the end of the main.js reference in pizza.html
-4: Reran the page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 87/100!
-5: Inspected timeline using Chrome DevTools.  Results showed determineDx, changePizzaSizes, and resizePizza functions in main.js had the heaviest stack > 400ms each.
-6: Inspected console using Chrome DevTools. Time to resize pizzas resulted in > 145ms.  Average time to generate last 10 frames ranged between .09ms and .16ms.
-7: Streamlined the changePizzaSizes sub-function of the main resizePizza function, consistent with the syntax used in the other sub-functions and removed the dx variable which was useless before.
+3: Reran the page speed at https://developers.google.com/speed/pagespeed/insights.  Result was 87/100!
+4: Inspected timeline using Chrome DevTools.  Results showed determineDx, changePizzaSizes, and resizePizza functions in main.js had the heaviest stack > 400ms each.
+5: Inspected console using Chrome DevTools. Time to resize pizzas resulted in > 145ms.  Average time to generate last 10 frames ranged between .09ms and .16ms.
+6: Streamlined the changePizzaSizes sub-function of the main resizePizza function, consistent with the syntax used in the other sub-functions and removed the dx variable which was useless before.
+7: Modified the updatePositions function to dynamically calculate the # of pizzas to fill the screen based on the device screensize.
 8: Re-inspected timeline of pizza.html using Chrome DevTools.  Results showed a more optimal scripting and improvements in the resizePizza and changePizzaSizes functions in main.js. The heaviest stack < 3ms each.
 9: Re-inspected console of pizza.html using Chrome DevTools. Time to resize pizzas resulted in ~1ms.  Average time to generate last 10 frames ranged between .10ms and .44ms.
 
