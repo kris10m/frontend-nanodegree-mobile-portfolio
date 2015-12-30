@@ -547,10 +547,19 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
+//KM 12/30: Modified to dynamically calc screensize to reduce the number of background pizzas
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
+  //var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var cols = Math.ceil(window.innerWidth / s);
+    console.log("cols value: " + cols);
+  var rows = Math.ceil(window.innerHeight / s);
+    console.log("rows value: " + rows);
+  var numberOfPizzas = cols * rows;
+    console.log("Number of Pizzas value: " + numberOfPizzas);
+
+  for (var i = 0; i < numberOfPizzas; i++) {
+//  for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
